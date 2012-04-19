@@ -42,10 +42,13 @@ static int cec_dev_close(struct inode *i, struct file *f)
 	struct cec_device *cec_dev =
 			container_of(cdev, struct cec_device, cdev);
 	struct cec_driver *driver = to_cec_driver(cec_dev->dev.driver);
+	int ret;
+
+	ret = cec_detach_host(driver);
 
 	cec_flush_queues(driver);
 
-	return cec_detach_host(driver);
+	return ret;
 }
 
 static long cec_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
