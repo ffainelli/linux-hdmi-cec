@@ -54,11 +54,10 @@ static int cec_driver_probe(struct device *dev)
 
 static int cec_driver_remove(struct device *dev)
 {
-	struct cec_device *cec_dev = to_cec_device(dev);
 	struct cec_driver *drv = to_cec_driver(dev->driver);
 
+	cec_detach_host(drv);
 	cec_flush_queues(drv);
-	cec_remove_dev_node(cec_dev);
 
 	return 0;
 }
@@ -528,7 +527,10 @@ EXPORT_SYMBOL(register_cec_device);
  */
 void unregister_cec_device(struct cec_device *cec_dev)
 {
+	cec_remove_dev_node(cec_dev);
 	device_unregister(&cec_dev->dev);
+	memset(&cec_dev->dev, 0, sizeof(cec_dev->dev));
+	cec_device_count--;
 }
 EXPORT_SYMBOL(unregister_cec_device);
 
