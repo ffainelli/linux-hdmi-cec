@@ -31,6 +31,9 @@ static int cec_dev_open(struct inode *i, struct file *f)
 			container_of(cdev, struct cec_device, cdev);
 	struct cec_driver *driver = to_cec_driver(cec_dev->dev.driver);
 
+	if (f->private_data)
+		return -EBUSY;
+
 	f->private_data = cec_dev;
 
 	return cec_attach_host(driver);
@@ -48,18 +51,26 @@ static int cec_dev_close(struct inode *i, struct file *f)
 
 	cec_flush_queues(driver);
 
+	f->private_data = NULL;
+
 	return ret;
 }
 
 static long cec_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
 {
-	struct cec_device *cec_dev = f->private_data;
-	struct cec_driver *driver = to_cec_driver(cec_dev->dev.driver);
+	struct cec_device *cec_dev;
+	struct cec_driver *driver;
 	void __user *argp = (void __user *)arg;
 	int __user *p = argp;
 	int val, ret = -EFAULT;
 	struct cec_msg msg;
 	struct cec_counters cnt;
+
+	if (!f->private_data)
+		return -ENODEV;
+
+	cec_dev = f->private_data;
+	driver = to_cec_driver(cec_dev->dev.driver);
 
 	switch (cmd) {
 	case CEC_SET_LOGICAL_ADDRESS:
