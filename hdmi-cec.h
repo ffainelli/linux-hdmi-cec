@@ -188,7 +188,6 @@ void unregister_cec_driver(struct cec_driver *);
  * @cdev:	character device node
  * @dev:	device structure for device/driver model interaction
  * @class_dev:	class device pointer
- * @cec_driver:	associated cec driver pointer
  */
 struct cec_device {
 	const char		*name;
@@ -198,7 +197,6 @@ struct cec_device {
 	struct cdev		cdev;
 	struct device		dev;
 	struct device		*class_dev;
-	struct cec_driver	*cec_driver;
 };
 
 static inline struct cec_device *to_cec_device(struct device *d)
