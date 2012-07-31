@@ -530,6 +530,7 @@ void unregister_cec_device(struct cec_device *cec_dev)
 	cec_remove_dev_node(cec_dev);
 	device_unregister(&cec_dev->dev);
 	memset(&cec_dev->dev, 0, sizeof(cec_dev->dev));
+	memset(&cec_dev->cdev, 0, sizeof(cec_dev->cdev));
 	cec_device_count--;
 }
 EXPORT_SYMBOL(unregister_cec_device);
