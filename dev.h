@@ -2,7 +2,11 @@
 #define __HDMI_CEC_DEV_H
 
 #include <linux/ioctl.h>
+#ifndef __EXT_BUILD__
 #include <linux/hdmi-cec/hdmi-cec.h>
+#else
+#include "hdmi-cec.h"
+#endif
 
 #define CEC_IOCTL_BASE	'C'
 

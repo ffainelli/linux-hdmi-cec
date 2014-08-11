@@ -15,8 +15,13 @@
 #include <linux/completion.h>
 #include <linux/mutex.h>
 
+#ifndef __EXT_BUILD__
 #include <linux/hdmi-cec/hdmi-cec.h>
 #include <linux/hdmi-cec/dev.h>
+#else
+#include "hdmi-cec.h"
+#include "dev.h"
+#endif
 
 #define PFX	KBUILD_MODNAME ": "
 

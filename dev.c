@@ -15,8 +15,13 @@
 #include <linux/poll.h>
 #include <linux/sched.h>
 
+#ifndef __EXT_BUILD__
 #include <linux/hdmi-cec/hdmi-cec.h>
 #include <linux/hdmi-cec/dev.h>
+#else
+#include "hdmi-cec.h"
+#include "dev.h"
+#endif
 
 static unsigned num_cec_devs;
 static int cec_major;
