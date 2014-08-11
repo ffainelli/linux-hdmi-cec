@@ -201,7 +201,7 @@ static struct platform_driver cec_example_driver = {
 		.owner	= THIS_MODULE,
 	},
 	.probe	= cec_example_probe,
-	.remove	= __devexit_p(cec_example_remove),
+	.remove	= cec_example_remove,
 };
 
 static int __init cec_example_init(void)
